@@ -1,0 +1,86 @@
+<div class="container-fluid mcolor">
+  <div class="back pirate" style="padding-bottom:10px">
+    <span style="cursor : pointer" (click)="goBack()">
+        <span>
+          <i class="fa fa-arrow-left" aria-hidden="true"></i> Back</span>
+      </span> 
+    </div>
+    <div class="row" *ngIf="countryInfo">
+      <div class="col text-center pirate">
+          <img [src]="countryInfo[0].flag" class="img-fluid flag">
+      
+            
+              <h1>{{countryInfo[0].name}} {{countryInfo[0].nativeName === countryInfo[0].name ? "" : "(" + countryInfo[0].nativeName + ")" }}</h1>
+              <h4>Capital City : {{countryInfo[0].capital}}</h4>
+            
+        </div>
+      <div class="accordion text-center pirate backcolor" style="width:100%">
+          <div class="card">
+              <div class="card-header pcolor" id="headingOne">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" data-toggle="collapse" data-target="#geography" aria-expanded="true" aria-controls="collapseOne">
+                    <h4>Geography</h4>
+                  </button>
+                </h5>
+              </div>
+          
+              <div id="geography" class="collapse hidden mcolor" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <b>Region : </b> {{countryInfo[0].region}}
+                    <br>
+                    <b>Subregion : </b> {{countryInfo[0].subregion}}
+                    <br>
+                    <b>Latitude : </b> {{countryInfo[0].latlng[0]}}
+                    <br>
+                    <b>Longitude : </b> {{countryInfo[0].latlng[1]}}
+                    <br>
+                    <b>Area : </b> {{countryInfo[0].area}}
+                    <br>
+                    <b>Borders : </b>
+                    <span class="badge badge-secondary" style="display : inline-block; cursor : pointer; margin : 0 5px; font-weight: normal;" *ngFor="let borderCountry of countryInfo[0].borders">
+                      <a (click)="getCountryByCode(borderCountry)">{{borderCountry}}</a>
+                    </span>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+                <div class="card-header pcolor" id="headingTwo">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#language" aria-expanded="true" aria-controls="collapseOne">
+                      <h4>Languages</h4>
+                    </button>
+                  </h5>
+                </div>
+            
+                <div id="language" class="collapse hidden mcolor" aria-labelledby="headingTwo" data-parent="#accordion">
+                  <div class="card-body">
+                      <span *ngFor="let language of countryInfo[0].languages; let i = last">
+                          <a [routerLink] = "['/countries/' + countryInfo[0].region]" [queryParams]="{ 'language' : language.iso639_1, 'name' : language.name}">{{language.name}}</a><br>
+                        </span>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                  <div class="card-header pcolor" id="headingThree">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link" data-toggle="collapse" data-target="#others" aria-expanded="true" aria-controls="collapseOne">
+                        <h4>Other Details</h4>
+                      </button>
+                    </h5>
+                  </div>
+              
+                  <div id="others" class="collapse hidden mcolor" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                        <b>Top Level Domain</b> : {{countryInfo[0].topLevelDomain}} <br> 
+                        <b>alpha2Code</b> : {{countryInfo[0].alpha2Code}} <br>
+                        <b>alpha3Code</b> : {{countryInfo[0].alpha3Code}} <br>
+                        <b>Calling Codes</b> : <span *ngFor="let code of countryInfo[0].callingCodes; let i = last">{{code}}{{i ? "" : ","}}</span> <br>
+                        <b>Population</b> : {{countryInfo[0].population}} <br>
+                        <b>Currencies</b> : <span *ngFor="let currency of countryInfo[0].currencies; let i = last"><a [routerLink] = "['/countries/' + countryInfo[0].region]" [queryParams]="{ 'currency' : currency.code, 'name' : currency.name}" >{{currency.name}} </a>{{i ? "" : ","}}<br></span>
+                        <b>TimeZone</b> : <span *ngFor="let time of countryInfo[0].timezones">{{time}}<br></span> <br>
+                    </div>
+                  </div>
+            </div>
+      </div>
+    </div>
+</div>
